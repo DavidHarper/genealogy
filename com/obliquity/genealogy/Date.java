@@ -93,4 +93,9 @@ public class Date {
 		else
 			modifier |= BETWEEN;
 	}
+	
+	public String toString() {
+		return "Date[year=" + year + ", month=" + month + ", day=" + day + ", modifier=" + modifier +
+			(isBetween() ? ", laterDate=" + laterDate : "") + "]";
+	}
 }
