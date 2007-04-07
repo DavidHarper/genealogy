@@ -30,7 +30,7 @@ public class Person extends Core {
 					+ o.getClass().getName() + " to a Person");
 	}
 
-	public void setname(Name name) {
+	public void setName(Name name) {
 		this.name = name;
 	}
 	
