@@ -5,6 +5,12 @@ import com.obliquity.genealogy.Core;
 import com.obliquity.genealogy.PropertyException;
 
 public abstract class GedcomObjectFactory {
+	protected GedcomObjectFactory parent;
+	
+	public GedcomObjectFactory(GedcomObjectFactory parent) {
+		this.parent = parent;
+	}
+	
 	public Core processGedcomRecord(GedcomRecord rootRecord, GedcomReader reader)
 		throws IOException, GedcomException, PropertyException {
 		int rootLevel = rootRecord.getLevel();
