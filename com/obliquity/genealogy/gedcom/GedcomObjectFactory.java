@@ -1,11 +1,13 @@
 package com.obliquity.genealogy.gedcom;
 
 import java.io.IOException;
+import java.util.HashMap;
 import com.obliquity.genealogy.Core;
 import com.obliquity.genealogy.PropertyException;
 
 public abstract class GedcomObjectFactory {
 	protected GedcomObjectFactory parent;
+	protected HashMap xrefTable = new HashMap();
 	
 	public GedcomObjectFactory(GedcomObjectFactory parent) {
 		this.parent = parent;
@@ -40,6 +42,17 @@ public abstract class GedcomObjectFactory {
 		}
 		
 		return null;
+	}
+	
+	public Core getObjectByXref(String xref) {
+		return (parent == null) ? (Core)xrefTable.get(xref) : parent.getObjectByXref(xref);
+	}
+	
+	public void setObjectByXref(String xref, Core object) {
+		if (parent == null)
+			xrefTable.put(xref, object);
+		else
+			parent.setObjectByXref(xref, object);
 	}
 	
 	public abstract Core createRootObject(GedcomRecord record);
