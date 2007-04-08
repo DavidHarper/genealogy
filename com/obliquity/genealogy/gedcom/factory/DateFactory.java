@@ -18,9 +18,8 @@ public class DateFactory extends GedcomObjectFactory {
 		return null;
 	}
 
-	public void handleRecord(Core root, GedcomRecord record, GedcomReader reader) {
-		// TODO Auto-generated method stub
-		
+	public boolean handleRecord(Core root, GedcomRecord record, GedcomReader reader) {
+		return false;
 	}
 
 }

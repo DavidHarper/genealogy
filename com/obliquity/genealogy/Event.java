@@ -51,6 +51,14 @@ public class Event extends Core {
 	protected Date date;
 	protected Place place;
 	
+	public Event() {
+		this(EVENT);
+	}
+	
+	public Event(int type) {
+		this.type = type;
+	}
+	
 	public void add(Object o) throws PropertyException {
 	}
 	
@@ -58,7 +66,11 @@ public class Event extends Core {
 		return type;
 	}
 	
-	public String getName() {
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
+	
+	public String getTypeName() {
 		return typeName;
 	}
 	

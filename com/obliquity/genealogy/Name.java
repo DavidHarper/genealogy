@@ -1,6 +1,6 @@
 package com.obliquity.genealogy;
 
-public class Name {
+public class Name extends Core {
 	protected String familyName;
 	protected String givenName;
 	protected String nickname;
@@ -54,5 +54,8 @@ public class Name {
 	
 	public String toString() {
 		return "Name[givenName=" + givenName + ", familyName=" + familyName + "]";
+	}
+
+	public void add(Object o) throws PropertyException {
 	}
 }

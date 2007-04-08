@@ -13,8 +13,6 @@ public class FamilyHistoryFactory extends GedcomObjectFactory {
 	SourceFactory sourceFactory = new SourceFactory(this);
 	
 	EventFactory eventFactory = new EventFactory(this);
-	DateFactory dateFactory = new DateFactory(eventFactory);	
-	PlaceFactory placeFactory = new PlaceFactory(eventFactory);
 	
 	AttributeFactory attributeFactory = new AttributeFactory(personFactory);
 	
@@ -29,21 +27,20 @@ public class FamilyHistoryFactory extends GedcomObjectFactory {
 		familyFactory.setNoteFactory(noteFactory);
 		familyFactory.setSourceFactory(sourceFactory);
 		familyFactory.setEventFactory(eventFactory);
+		
+		noteFactory.setSourceFactory(sourceFactory);
 	}
 	
 	public Core createRootObject(GedcomRecord record) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public GedcomObjectFactory findFactoryForTag(String tag) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public void handleRecord(Core root, GedcomRecord record, GedcomReader reader) {
-		// TODO Auto-generated method stub
-		
+	public boolean handleRecord(Core root, GedcomRecord record, GedcomReader reader) {
+		return false;
 	}
 
 }

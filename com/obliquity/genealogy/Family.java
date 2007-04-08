@@ -56,4 +56,8 @@ public class Family extends Core {
 	public int getChildCount() {
 		return nChildren < 0 ? children.size() : nChildren;
 	}
+
+	public void setChildCount(int i) {
+		nChildren = i;
+	}
 }
