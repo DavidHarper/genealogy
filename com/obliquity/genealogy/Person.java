@@ -15,6 +15,10 @@ public class Person extends Core {
 	protected Vector events = new Vector();
 
 	protected Vector attributes = new Vector();
+	
+	protected Vector notes = new Vector();
+	
+	protected Vector sources = new Vector();
 
 	protected Vector familyAsChild = new Vector();
 
@@ -25,6 +29,10 @@ public class Person extends Core {
 			addEvent((Event) o);
 		else if (o instanceof Attribute)
 			addAttribute((Attribute) o);
+		else if (o instanceof Note)
+			addNote((Note)o);
+		else if (o instanceof Source)
+			addSource((Source)o);
 		else
 			throw new PropertyException("Unable to add object of type "
 					+ o.getClass().getName() + " to a Person");
@@ -72,6 +80,14 @@ public class Person extends Core {
 	
 	public void addAttribute(Attribute attr) {
 		attributes.add(attr);
+	}
+	
+	public void addNote(Note note) {
+		notes.add(note);
+	}
+	
+	public void addSource(Source source) {
+		sources.add(source);
 	}
 	
 	public void addFamilyAsChild(Family family) {
