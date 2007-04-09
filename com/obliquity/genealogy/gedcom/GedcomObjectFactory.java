@@ -18,6 +18,8 @@ public abstract class GedcomObjectFactory {
 			throws IOException, GedcomException, PropertyException {
 		int rootLevel = rootRecord.getLevel();
 
+		report("### Processing root record", rootRecord, reader);
+		
 		Core root = createRootObject(rootRecord);
 		
 		if (root == null) {
@@ -33,16 +35,23 @@ public abstract class GedcomObjectFactory {
 				reader.pushback();
 				return root;
 			}
+			
+			report("Processing record", record, reader);
 
 			if (level == rootLevel + 1) {
 				GedcomObjectFactory factory = findFactoryForTag(record.getTag());
 
 				if (factory == null) {
 					boolean handled = handleRecord(root, record, reader);
+					
+					System.out.println("\thandleRecord --> " + handled);
+					
 					if (!handled)
 						ignoreRecord(record, reader);
 				} else {
 					Core child = factory.processGedcomRecord(record, reader);
+					
+					System.out.println("\tfactory --> " + child);
 					
 					if (child != null)
 						root.add(child);
@@ -51,6 +60,22 @@ public abstract class GedcomObjectFactory {
 		}
 
 		return null;
+	}
+	
+	protected void report(String message, GedcomRecord record, GedcomReader reader) {
+		java.io.PrintStream ps = System.out;
+		
+		String classname = getClass().getName();
+		int lastdot = classname.lastIndexOf('.');
+		classname = classname.substring(lastdot+1);
+		
+		ps.print(message);
+		ps.print(" in class ");
+		ps.print(classname);
+		ps.print(" at line ");
+		ps.print(reader.getLineNumber());
+		ps.print(", record=");
+		ps.println(record);
 	}
 
 	public Core getObjectByXref(String xref) {

@@ -33,6 +33,8 @@ public class Person extends Core {
 			addNote((Note)o);
 		else if (o instanceof Source)
 			addSource((Source)o);
+		else if (o instanceof Name)
+			setName((Name)o);
 		else
 			throw new PropertyException("Unable to add object of type "
 					+ o.getClass().getName() + " to a Person");

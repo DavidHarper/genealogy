@@ -15,6 +15,14 @@ public class Note extends Core {
 			throw new PropertyException("Unable to add object of type "
 					+ o.getClass().getName() + " to a Note");
 	}
+
+	public String getText() {
+		return text;
+	}
+	
+	public void setText(String text) {
+		this.text = text;
+	}
 	
 	public void concatenateText(String newText) {
 		text = text + newText;

@@ -5,13 +5,26 @@ import com.obliquity.genealogy.gedcom.*;
 
 public class NoteFactory extends GedcomObjectFactory {
 	protected SourceFactory sourceFactory;
-	
+
 	public NoteFactory(GedcomObjectFactory parent) {
 		super(parent);
 	}
-	
+
 	public Core createRootObject(GedcomRecord record) {
-		return new Note(record.getContent());
+		String xref = record.getXref();
+
+		if (xref == null) {
+			return new Note(record.getContent());
+		} else {
+			Note note = (Note) getObjectByXref(xref);
+
+			if (note == null) {
+				note = new Note(record.getContent());
+				putObjectByXref(xref, note);
+			}
+
+			return note;
+		}
 	}
 
 	public GedcomObjectFactory findFactoryForTag(String tag) {
@@ -21,19 +34,20 @@ public class NoteFactory extends GedcomObjectFactory {
 			return null;
 	}
 
-	public boolean handleRecord(Core root, GedcomRecord record, GedcomReader reader) {
+	public boolean handleRecord(Core root, GedcomRecord record,
+			GedcomReader reader) {
 		String tag = record.getTag();
-		
+
 		if (tag.equalsIgnoreCase("CONC")) {
-			((Note)root).concatenateText(record.getContent());
+			((Note) root).concatenateText(record.getContent());
 			return true;
 		} else if (tag.equalsIgnoreCase("CONT")) {
-			((Note)root).continueText(record.getContent());
+			((Note) root).continueText(record.getContent());
 			return true;
 		} else
 			return false;
 	}
-	
+
 	public void setSourceFactory(SourceFactory sourceFactory) {
 		this.sourceFactory = sourceFactory;
 	}
