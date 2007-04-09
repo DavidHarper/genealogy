@@ -1,6 +1,6 @@
 package com.obliquity.genealogy.gedcom.factory;
 
-import com.obliquity.genealogy.Core;
+import com.obliquity.genealogy.*;
 import com.obliquity.genealogy.gedcom.*;
 
 public class DateFactory extends GedcomObjectFactory {
@@ -9,8 +9,7 @@ public class DateFactory extends GedcomObjectFactory {
 	}
 	
 	public Core createRootObject(GedcomRecord record) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Date(record.getContent());
 	}
 
 	public GedcomObjectFactory findFactoryForTag(String tag) {

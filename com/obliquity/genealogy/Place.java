@@ -1,10 +1,16 @@
 package com.obliquity.genealogy;
 
-public class Place {
+public class Place extends Core {
 	protected String locality;
 	protected String county;
 	protected String state;
 	protected String country;
+	
+	protected String placeName;
+	
+	public Place(String placeName) {
+		this.placeName = placeName;
+	}
 	
 	public Place(String locality, String county, String state, String country) {
 		this.locality = locality;
@@ -30,7 +36,13 @@ public class Place {
 	}
 	
 	public String toString() {
-		return "Place[locality=" + locality + ", county=" + county + ", state=" + state +
-			", country=" + country + "]";
+		if (placeName != null)
+			return "Place[name=\"" + placeName + "\"]";
+		else
+			return "Place[locality=" + locality + ", county=" + county + ", state=" + state +
+				", country=" + country + "]";
+	}
+
+	public void add(Object o) throws PropertyException {
 	}
 }

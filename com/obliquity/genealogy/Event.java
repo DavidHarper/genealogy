@@ -96,6 +96,14 @@ public class Event extends Core {
 	}
 
 	public void add(Object o) throws PropertyException {
+		if (o instanceof Date)
+			setDate((Date)o);
+		else if (o instanceof Place)
+			setPlace((Place)o);
+		else
+			throw new PropertyException("Unable to add object of type "
+					+ o.getClass().getName() + " to an Event");
+	
 	}
 
 	public int getType() {
