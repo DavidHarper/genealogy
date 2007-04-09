@@ -112,9 +112,17 @@ public class PersonFactory extends GedcomObjectFactory {
 	}
 
 	protected Family findFamily(String xref) {
+		xref = xref.substring(1, xref.length() - 1);
+		
+		System.out.print(">>> Looking for family " + xref + " ... ");
+		
 		Family family = (Family)getObjectByXref(xref);
 		
+		if (family != null)
+			System.out.println("found " + family);
+		
 		if (family == null) {
+			System.out.println("not found, creating new family");
 			family = new Family();
 			putObjectByXref(xref, family);
 		}
