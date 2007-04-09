@@ -60,4 +60,11 @@ public class Family extends Core {
 	public void setChildCount(int i) {
 		nChildren = i;
 	}
+	
+	public String toString() {
+		return "Family[husband=" + ((husband == null) ? "null" : husband.getName().toString()) +
+			", wife=" + ((wife == null) ? "null" : wife.getName().toString()) +
+			", marriage=" + ((marriage == null) ? "null" : marriage.toString()) +
+			", children=" + getChildCount() + "]";
+	}
 }

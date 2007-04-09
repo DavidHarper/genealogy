@@ -99,4 +99,9 @@ public class Person extends Core {
 	public void addFamilyAsSpouse(Family family) {
 		familyAsSpouse.add(family);
 	}
+	
+	public String toString() {
+		return "Person[name=" + ((name == null) ? "null" : name.toString()) +
+			", birth=" + ((birth == null) ? "null" : birth.toString()) + "]";
+	}
 }
