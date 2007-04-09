@@ -40,7 +40,7 @@ public class FamilyHistoryFactory extends GedcomObjectFactory {
 		
 		noteFactory.setSourceFactory(sourceFactory);
 	}
-	
+		
 	public Core createRootObject(GedcomRecord record) {
 		return null;
 	}
@@ -143,9 +143,27 @@ public class FamilyHistoryFactory extends GedcomObjectFactory {
 			
 			FamilyHistoryFactory factory = new FamilyHistoryFactory();
 			
+			boolean debugging = Boolean.getBoolean("debug");
+			
+			factory.setDebugging(debugging);
+			
 			factory.processGedcomFile(reader);
 			
 			Set families = factory.getFamilies();
+			
+			Runtime runtime = Runtime.getRuntime();
+			
+			System.gc();
+			
+			long totalmem = runtime.totalMemory()/1024;
+			long freemem  = runtime.freeMemory()/1024;
+			long usedmem  = totalmem - freemem;
+			
+			System.out.println("Memory: total=" + totalmem + "kb, free=" + freemem +
+					"kb, used=" + usedmem + "kb");
+			
+			if (Boolean.getBoolean("nolist"))
+				System.exit(0);
 			
 			for (Iterator iter = families.iterator(); iter.hasNext();) {
 				System.out.println("\n--- FAMILY ---");
