@@ -14,9 +14,13 @@ public class Family extends Core {
 	
 	protected Vector events = new Vector();
 	
+	protected Vector notes = new Vector();
+
 	public void add(Object o) throws PropertyException {
 		if (o instanceof Event)
 			addEvent((Event)o);
+		else if (o instanceof Note)
+			addNote((Note)o);
 		else
 			throw new PropertyException("Unable to add object of type "
 					+ o.getClass().getName() + " to a Family");
@@ -33,6 +37,10 @@ public class Family extends Core {
 		}
 	}
 	
+	public void addNote(Note note) {
+		notes.add(note);
+	}
+
 	public void addPersonAsHusband(Person person) {
 		husband = person;
 	}
