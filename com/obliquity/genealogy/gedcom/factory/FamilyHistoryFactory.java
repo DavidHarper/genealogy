@@ -4,19 +4,27 @@ import com.obliquity.genealogy.*;
 import com.obliquity.genealogy.gedcom.*;
 
 import java.io.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Iterator;
 
 import javax.swing.JFileChooser;
 
 public class FamilyHistoryFactory extends GedcomObjectFactory {
-	PersonFactory personFactory = new PersonFactory(this);
-	FamilyFactory familyFactory = new FamilyFactory(this);
+	protected PersonFactory personFactory = new PersonFactory(this);
+	protected FamilyFactory familyFactory = new FamilyFactory(this);
 	
-	NoteFactory noteFactory = new NoteFactory(this);
-	SourceFactory sourceFactory = new SourceFactory(this);
+	protected NoteFactory noteFactory = new NoteFactory(this);
+	protected SourceFactory sourceFactory = new SourceFactory(this);
 	
-	EventFactory eventFactory = new EventFactory(this);
+	protected EventFactory eventFactory = new EventFactory(this);
 	
-	AttributeFactory attributeFactory = new AttributeFactory(personFactory);
+	protected AttributeFactory attributeFactory = new AttributeFactory(personFactory);
+	
+	protected Set people;
+	protected Set families;
+	protected Set notes;
+	protected Set sources;
 	
 	public FamilyHistoryFactory() {
 		super(null);
@@ -64,9 +72,10 @@ public class FamilyHistoryFactory extends GedcomObjectFactory {
 				factory = noteFactory;
 			else if (tag.equalsIgnoreCase("SOUR"))
 				factory = sourceFactory;
-			else if (tag.equalsIgnoreCase("TRLR"))
+			else if (tag.equalsIgnoreCase("TRLR")) {
+				makeSets();
 				return;
-			else
+			} else
 				factory = null;
 			
 			if (factory != null)
@@ -74,6 +83,42 @@ public class FamilyHistoryFactory extends GedcomObjectFactory {
 			else
 				ignoreRecord(record, reader);
 		}
+	}
+	
+	protected void makeSets() {
+		people = new HashSet();
+		families = new HashSet();
+		notes = new HashSet();
+		sources = new HashSet();
+		
+		for (Iterator iter = xrefTable.values().iterator(); iter.hasNext();) {
+			Core o = (Core)iter.next();
+			
+			if (o instanceof Person)
+				people.add(o);
+			else if (o instanceof Family)
+				families.add(o);
+			else if (o instanceof Note)
+				notes.add(o);
+			else if (o instanceof Source)
+				sources.add(o);
+		}
+	}
+	
+	public Set getPeople() {
+		return people;
+	}
+	
+	public Set getFamilies() {
+		return families;
+	}
+	
+	public Set getNotes() {
+		return notes;
+	}
+	
+	public Set getSources() {
+		return sources;
 	}
 	
 	public static void main(String[] args) {
@@ -99,8 +144,42 @@ public class FamilyHistoryFactory extends GedcomObjectFactory {
 			FamilyHistoryFactory factory = new FamilyHistoryFactory();
 			
 			factory.processGedcomFile(reader);
+			
+			Set families = factory.getFamilies();
+			
+			for (Iterator iter = families.iterator(); iter.hasNext();) {
+				System.out.println("\n--- FAMILY ---");
+
+				Family family = (Family)iter.next();
+				
+				showPerson(family.getHusband(), "Husband");
+				showPerson(family.getWife(), "Wife");
+				
+				Date marriage = family.getMarriageDate();
+				if (marriage != null)
+					System.out.println("\nMarried: " + marriage.asString());
+				
+				for (int i = 1; i <= family.getChildCount(); i++)
+					showPerson(family.getChild(i), "Child #" + i);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public static void showPerson(Person person, String caption) {
+		System.out.print("\n" + caption + ": ");
+		
+		if (person == null)
+			System.out.println(" not known");
+		else {
+			System.out.println(person.getName().getFullName());
+			Date birth = person.getBirthDate();
+			if (birth != null)
+				System.out.println("\tBorn: " + birth.asString());
+			Date death = person.getDeathDate();
+			if (death != null)
+				System.out.println("\tDied: " + death.asString());		
 		}
 	}
 }
