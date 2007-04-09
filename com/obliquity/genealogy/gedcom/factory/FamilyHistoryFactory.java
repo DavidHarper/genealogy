@@ -149,6 +149,12 @@ public class FamilyHistoryFactory extends GedcomObjectFactory {
 			
 			factory.processGedcomFile(reader);
 			
+			System.out.println("The GEDCOM file contained:");
+			System.out.println("\t" + factory.getFamilies().size() + " families");
+			System.out.println("\t" + factory.getPeople().size() + " individuals");
+			System.out.println("\t" + factory.getNotes().size() + " notes");
+			System.out.println("\t" + factory.getSources().size() + " sources");
+			
 			Set families = factory.getFamilies();
 			
 			Runtime runtime = Runtime.getRuntime();
