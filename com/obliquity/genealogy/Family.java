@@ -61,6 +61,20 @@ public class Family extends Core {
 		nChildren = i;
 	}
 	
+	public Person getChild(int i) {
+		if (i < 1 || i > children.size())
+			return null;
+		else return (Person)children.elementAt(i-1);
+	}
+	
+	public Event getMarriage() {
+		return marriage;
+	}
+	
+	public Date getMarriageDate() {
+		return (marriage == null) ? null : marriage.getDate();
+	}
+	
 	public String toString() {
 		return "Family[husband=" + ((husband == null) ? "null" : husband.getName().toString()) +
 			", wife=" + ((wife == null) ? "null" : wife.getName().toString()) +

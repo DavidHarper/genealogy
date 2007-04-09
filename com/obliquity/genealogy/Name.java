@@ -12,6 +12,10 @@ public class Name extends Core {
 		this.familyName = familyName;
 	}
 	
+	public String getFullName() {
+		return givenName + " " + familyName;
+	}
+	
 	public void setGivenName(String givenName) {
 		this.givenName = givenName;
 	}

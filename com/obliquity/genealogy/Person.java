@@ -100,6 +100,30 @@ public class Person extends Core {
 		familyAsSpouse.add(family);
 	}
 	
+	public Event getBirth() {
+		return birth;
+	}
+	
+	public Date getBirthDate() {
+		return (birth == null) ? null : birth.getDate();
+	}
+	
+	public Date getDeathDate() {
+		return (death == null) ? null : death.getDate();
+	}
+	
+	public Event getBaptism() {
+		return baptism;
+	}
+	
+	public Event getDeath() {
+		return death;
+	}
+	
+	public Event getBurial() {
+		return burial;
+	}
+	
 	public String toString() {
 		return "Person[name=" + ((name == null) ? "null" : name.toString()) +
 			", birth=" + ((birth == null) ? "null" : birth.toString()) + "]";

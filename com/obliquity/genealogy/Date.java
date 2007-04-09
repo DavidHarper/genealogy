@@ -107,6 +107,13 @@ public class Date extends Core {
 		else
 			modifier |= BETWEEN;
 	}
+	
+	public String asString() {
+		if (dateString != null)
+			return dateString;
+		else
+			return year + "-" + month + "-" + day;
+	}
 
 	public String toString() {
 		if (dateString != null)
