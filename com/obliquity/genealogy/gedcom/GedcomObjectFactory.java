@@ -9,16 +9,27 @@ public abstract class GedcomObjectFactory {
 	protected GedcomObjectFactory parent;
 
 	protected HashMap xrefTable = new HashMap();
+	
+	protected boolean debugging = false;
 
 	public GedcomObjectFactory(GedcomObjectFactory parent) {
 		this.parent = parent;
+	}
+	
+	public void setDebugging(boolean debugging) {
+		this.debugging = debugging;
+	}
+	
+	public boolean isDebugging() {
+		return debugging || (parent != null && parent.isDebugging());
 	}
 
 	public Core processGedcomRecord(GedcomRecord rootRecord, GedcomReader reader)
 			throws IOException, GedcomException, PropertyException {
 		int rootLevel = rootRecord.getLevel();
 
-		report("### Processing root record", rootRecord, reader);
+		if (debugging)
+			report("### Processing root record", rootRecord, reader);
 		
 		Core root = createRootObject(rootRecord);
 		
@@ -36,7 +47,8 @@ public abstract class GedcomObjectFactory {
 				return root;
 			}
 			
-			report("Processing record", record, reader);
+			if (debugging)
+				report("Processing record", record, reader);
 
 			if (level == rootLevel + 1) {
 				GedcomObjectFactory factory = findFactoryForTag(record.getTag());
@@ -44,14 +56,16 @@ public abstract class GedcomObjectFactory {
 				if (factory == null) {
 					boolean handled = handleRecord(root, record, reader);
 					
-					System.out.println("\thandleRecord --> " + handled);
+					if (debugging)
+						System.out.println("\thandleRecord --> " + handled);
 					
 					if (!handled)
 						ignoreRecord(record, reader);
 				} else {
 					Core child = factory.processGedcomRecord(record, reader);
 					
-					System.out.println("\tfactory --> " + child);
+					if (debugging)
+						System.out.println("\tfactory --> " + child);
 					
 					if (child != null)
 						root.add(child);
