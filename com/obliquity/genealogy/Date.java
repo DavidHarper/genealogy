@@ -28,6 +28,11 @@ public class Date extends Core {
 	protected int JD = -1;
 
 	protected boolean oldStyle = false;
+	
+	protected String[] gregorianMonthNames = {null,
+			"January", "February", "March", "April", "May", "June",
+			"July", "August", "September", "October", "November", "December"
+	};
 
 	public Date() {
 		// No-argument constructor for the benefit of sub-classes.
@@ -118,22 +123,23 @@ public class Date extends Core {
 		
 		switch (modifier) {
 		case ABOUT:
-			modstr = "ABOUT ";
+			modstr = "[ABOUT]";
 			break;
 		case ESTIMATED:
-			modstr = "ESTIMATED ";
+			modstr = "[ESTIMATED]";
 			break;
 		case CALCULATED:
-			modstr = "CALCULATED ";
+			modstr = "[CALCULATED]";
 			break;
 			
 		case WFT_ESTIMATED:
-			modstr = "WFT-ESTIMATED ";
+			modstr = "[WFT-ESTIMATED]";
 			break;
 		}
+		
+		return (day == 0 ? "" : "" + day + " ") +
+			(month == 0 ? "" : gregorianMonthNames[month] + " ") +
+			fmtI4.format(year) + (oldStyle ? "* " : " ") + modstr;
 
-		return "Date[" + modstr + fmtI4.format(year) + (oldStyle ? "*" : "")
-				+ (month == 0 ? "" : "/" + fmtI2.format(month))
-				+ (day == 0 ? "" : "/" + fmtI2.format(day)) + "]";
 	}
 }

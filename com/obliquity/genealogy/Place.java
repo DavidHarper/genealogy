@@ -37,10 +37,9 @@ public class Place extends Core {
 	
 	public String toString() {
 		if (placeName != null)
-			return "Place[name=\"" + placeName + "\"]";
+			return placeName;
 		else
-			return "Place[locality=" + locality + ", county=" + county + ", state=" + state +
-				", country=" + country + "]";
+			return locality + ", " + county + ", " + state + ", " + country;
 	}
 
 	public void add(Object o) throws PropertyException {

@@ -57,7 +57,11 @@ public class Name extends Core {
 	}
 	
 	public String toString() {
-		return "Name[givenName=" + givenName + ", familyName=" + familyName + "]";
+		if (givenName == null && familyName == null)
+			return "[Name unknown]";
+		else
+			return (givenName == null ? "[Given name unknown]" : givenName + " ") + 
+				(familyName == null ? "[Family name unknown]" : familyName);
 	}
 
 	public void add(Object o) throws PropertyException {
