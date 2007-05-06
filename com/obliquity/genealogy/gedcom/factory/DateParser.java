@@ -112,17 +112,14 @@ public class DateParser {
 			case 1:
 				if (isDigits(words[offset]))
 					year = Integer.parseInt(words[offset]);
-				else
-					throw new MalformedDateException("Non-digits in year field: \""
-							+ words[offset] + "\"");
+				else 
+					return null;
 				break;
 
 			case 2:
 				if (isDigits(words[offset])) {
 					day = Integer.parseInt(words[offset]);
 					month = monthNameToInt(words[offset + 1]);
-					System.err.println("Illegal date format \"" + words[offset]
-							+ " " + words[offset + 1] + "\"");
 				} else {
 					month = monthNameToInt(words[offset]);
 					strYear = words[offset + 1];
@@ -181,8 +178,6 @@ public class DateParser {
 
 	protected DatePeriod parseDatePeriod(String[] words, int code)
 			throws MalformedDateException {
-		System.out.print(" DATE PERIOD: ");
-
 		int toOffset = 0;
 		Date date1 = null;
 		Date date2 = null;
@@ -211,8 +206,6 @@ public class DateParser {
 
 	protected DateRange parseDateRange(String[] words, int code)
 			throws MalformedDateException {
-		System.out.print(" DATE RANGE: ");
-
 		Date date1 = null;
 		int flags = 0;
 		
