@@ -48,6 +48,14 @@ public class Person extends Core {
 		return name;
 	}
 	
+	public String getFamilyName() {
+		return name == null ? null : name.getFamilyName();
+	}
+	
+	public String getGivenName() {
+		return name == null ? null : name.getGivenName();
+	}
+	
 	public void setMale(boolean male) {
 		this.male = male;
 	}
@@ -108,8 +116,16 @@ public class Person extends Core {
 		return (birth == null) ? null : birth.getDate();
 	}
 	
+	public int getBirthYear() {
+		return (birth == null  || birth.getDate() == null) ? 0 : birth.getDate().getYear();
+	}
+	
 	public Date getDeathDate() {
 		return (death == null) ? null : death.getDate();
+	}
+	
+	public int getDeathYear() {
+		return (death == null || death.getDate() == null) ? 0 : death.getDate().getYear();
 	}
 	
 	public Event getBaptism() {
