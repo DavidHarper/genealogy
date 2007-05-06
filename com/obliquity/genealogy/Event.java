@@ -211,6 +211,11 @@ public class Event extends Core {
 		return place;
 	}
 	
+	public String getDateAndPlace() {
+		return ((date == null) ? "Date unknown" : date.toString()) +
+			((place == null) ? ", place unknown" : ", " + place.toString());
+	}
+	
 	public String toString() {
 		return "Event[code=" + type + ", type=\"" + getTypeName() + "\"" +
 			((date == null) ? "" : ", date=" + date) +
