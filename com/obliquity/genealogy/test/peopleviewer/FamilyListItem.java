@@ -2,7 +2,7 @@ package com.obliquity.genealogy.test.peopleviewer;
 
 import java.util.Vector;
 
-class FamilyListItem implements Comparable {
+class FamilyListItem implements Comparable<FamilyListItem> {
 	protected String familyName;
 	protected Vector familyMembers;
 	
@@ -23,8 +23,7 @@ class FamilyListItem implements Comparable {
 		return familyName == null || familyName.length() == 0 ? "UNKNOWN" : familyName;
 	}
 
-	public int compareTo(Object arg0) {
-		FamilyListItem that = (FamilyListItem)arg0;
+	public int compareTo(FamilyListItem that) {
 		return familyName.compareTo(that.familyName);
 	}
 }

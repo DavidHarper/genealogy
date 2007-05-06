@@ -9,12 +9,12 @@ import java.util.Vector;
 import java.util.Collections;
 
 class FamilyLister extends JPanel {
-	protected Vector allFamilies;
+	protected Vector<FamilyListItem> allFamilies;
 	JList memberNameList = new JList();
 	JList familyNameList;
 	PersonPanel personPanel = new PersonPanel();
 	
-	public FamilyLister(Vector allFamilies) {
+	public FamilyLister(Vector<FamilyListItem> allFamilies) {
 		super(null);
 		BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
 		setLayout(layout);

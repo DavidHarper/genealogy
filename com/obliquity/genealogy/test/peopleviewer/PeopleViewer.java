@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.obliquity.genealogy.*;
 import com.obliquity.genealogy.gedcom.*;
@@ -21,19 +22,8 @@ public class PeopleViewer {
 		if (args.length == 0) {
 			JFileChooser chooser = new JFileChooser();
 
-			chooser.setFileFilter(new FileFilter() {
-				public boolean accept(File f) {
-					if (f.isDirectory())
-						return true;
-
-					String filename = f.getName();
-					return filename.toLowerCase().endsWith(".ged");
-				}
-
-				public String getDescription() {
-					return "GEDCOM files";
-				}
-			});
+			FileFilter filter = new FileNameExtensionFilter("GEDCOM file", "ged");
+			chooser.setFileFilter(filter);
 
 			if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
 				file = chooser.getSelectedFile();
@@ -78,29 +68,29 @@ public class PeopleViewer {
 			System.out.println("Memory: total=" + totalmem + "kb, free="
 					+ freemem + "kb, used=" + usedmem + "kb");
 
-			Map familynames = new HashMap();
+			Map<String,Vector<PersonListItem>> familynames = new HashMap<String,Vector<PersonListItem>>();
 			
 			for (Iterator iter = people.iterator(); iter.hasNext();) {
 				Person person = (Person)iter.next();
 				Name name = person.getName();
 				String familyName = name.getFamilyName();
 				
-				Vector family = (Vector)familynames.get(familyName);
+				Vector<PersonListItem> family = familynames.get(familyName);
 				
 				if (family == null) {	
-					family = new Vector();
+					family = new Vector<PersonListItem>();
 					familynames.put(familyName, family);
 				}
 				
 				family.add(new PersonListItem(person));
 			}
 			
-			Vector allFamilies = new Vector();
+			Vector<FamilyListItem> allFamilies = new Vector<FamilyListItem>();
 					
 			for (Iterator iter = familynames.keySet().iterator(); iter.hasNext();) {
 				String familyName = (String)iter.next();
 				
-				Vector family = (Vector)familynames.get(familyName);
+				Vector<PersonListItem> family = familynames.get(familyName);
 				
 				Collections.sort(family);
 				

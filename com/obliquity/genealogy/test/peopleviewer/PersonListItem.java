@@ -2,7 +2,7 @@ package com.obliquity.genealogy.test.peopleviewer;
 
 import com.obliquity.genealogy.Person;
 
-class PersonListItem implements Comparable {
+class PersonListItem implements Comparable<PersonListItem> {
 	protected String givenName;
 	protected Person person;
 	protected String asString;
@@ -24,8 +24,7 @@ class PersonListItem implements Comparable {
 		return asString;
 	}
 
-	public int compareTo(Object arg0) {
-		PersonListItem that = (PersonListItem)arg0;
+	public int compareTo(PersonListItem that) {
 		return this.givenName.compareTo(that.givenName);
 	}
 }
