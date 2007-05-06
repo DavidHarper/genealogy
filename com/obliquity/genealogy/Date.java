@@ -1,54 +1,75 @@
 package com.obliquity.genealogy;
 
+import java.text.DecimalFormat;
+
 public class Date extends Core {
 	public static final int EXACT = 0;
 
-	public static final int BEFORE = 1;
+	public static final int ABOUT = 1;
 
-	public static final int AFTER = 2;
+	public static final int ESTIMATED = 2;
 
-	public static final int ABOUT = 4;
+	public static final int CALCULATED = 3;
+	
+	public static final int WFT_ESTIMATED = 4;
 
-	public static final int ESTIMATED = 8;
+	protected static final DecimalFormat fmtI4 = new DecimalFormat("####");
 
-	public static final int BETWEEN = 16;
+	protected static final DecimalFormat fmtI2 = new DecimalFormat("00");
 
-	public static final int OLD_STYLE = 32;
+	protected int year = 0;
 
-	protected int year;
+	protected int month = 0;
 
-	protected int month;
+	protected int day = 0;
 
-	protected int day;
+	protected int modifier = EXACT;
 
-	protected int modifier;
+	protected int JD = -1;
 
-	protected Date laterDate = null;
+	protected boolean oldStyle = false;
 
-	protected String dateString;
-
-	public Date(String dateString) {
-		this.dateString = dateString;
+	public Date() {
+		// No-argument constructor for the benefit of sub-classes.
 	}
 
-	public Date(int year, int month, int day, int modifier) {
+	public Date(int year, int month, int day, int modifier, boolean oldStyle) {
 		this.year = year;
 		this.month = month;
 		this.day = day;
 
 		this.modifier = modifier;
+		this.oldStyle = oldStyle;
+
+		calculateJD();
+	}
+
+	public Date(int year, int month, int day, int modifier) {
+		this(year, month, day, modifier, false);
+	}
+
+	public Date(int year, int month, int day, boolean oldStyle) {
+		this(year, month, day, EXACT, oldStyle);
 	}
 
 	public Date(int year, int month, int day) {
-		this(year, month, day, EXACT);
+		this(year, month, day, EXACT, false);
+	}
+
+	public Date(int year, int month, boolean oldStyle) {
+		this(year, month, 0, EXACT, oldStyle);
 	}
 
 	public Date(int year, int month) {
-		this(year, month, 0, EXACT);
+		this(year, month, 0, EXACT, false);
 	}
 
 	public Date(int year) {
-		this(year, 0, 0, EXACT);
+		this(year, 0, 0, EXACT, false);
+	}
+
+	protected void calculateJD() {
+
 	}
 
 	public int getYear() {
@@ -71,59 +92,48 @@ public class Date extends Core {
 		return modifier == EXACT;
 	}
 
-	public boolean isBefore() {
-		return (modifier & BEFORE) != 0;
-	}
-
-	public boolean isAfter() {
-		return (modifier & AFTER) != 0;
-	}
-
 	public boolean isAbout() {
-		return (modifier & ABOUT) != 0;
+		return modifier == ABOUT;
 	}
 
 	public boolean isEstimated() {
-		return (modifier & ESTIMATED) != 0;
+		return modifier == ESTIMATED;
 	}
 
-	public boolean isBetween() {
-		return (modifier & BETWEEN) != 0;
+	public boolean isCalculated() {
+		return modifier == CALCULATED;
 	}
 
 	public boolean isOldStyle() {
-		return (modifier & OLD_STYLE) != 0;
-	}
-
-	public Date getLaterDate() {
-		return laterDate;
-	}
-
-	public void setLaterDate(Date laterDate) {
-		this.laterDate = laterDate;
-
-		if (laterDate == null)
-			modifier ^= BETWEEN;
-		else
-			modifier |= BETWEEN;
-	}
-	
-	public String asString() {
-		if (dateString != null)
-			return dateString;
-		else
-			return year + "-" + month + "-" + day;
-	}
-
-	public String toString() {
-		if (dateString != null)
-			return "Date[\"" + dateString + "\"]";
-		else
-			return "Date[year=" + year + ", month=" + month + ", day=" + day
-					+ ", modifier=" + modifier
-					+ (isBetween() ? ", laterDate=" + laterDate : "") + "]";
+		return oldStyle;
 	}
 
 	public void add(Object o) throws PropertyException {
+		throw new PropertyException("Cannot add an attribute to a "
+				+ getClass().getName());
+	}
+
+	public String toString() {
+		String modstr = "";
+		
+		switch (modifier) {
+		case ABOUT:
+			modstr = "ABOUT ";
+			break;
+		case ESTIMATED:
+			modstr = "ESTIMATED ";
+			break;
+		case CALCULATED:
+			modstr = "CALCULATED ";
+			break;
+			
+		case WFT_ESTIMATED:
+			modstr = "WFT-ESTIMATED ";
+			break;
+		}
+
+		return "Date[" + modstr + fmtI4.format(year) + (oldStyle ? "*" : "")
+				+ (month == 0 ? "" : "/" + fmtI2.format(month))
+				+ (day == 0 ? "" : "/" + fmtI2.format(day)) + "]";
 	}
 }
