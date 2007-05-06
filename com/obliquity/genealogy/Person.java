@@ -1,5 +1,6 @@
 package com.obliquity.genealogy;
 
+import java.util.Iterator;
 import java.util.Vector;
 
 public class Person extends Core {
@@ -88,24 +89,48 @@ public class Person extends Core {
 		}
 	}
 	
+	public Iterator getEventIterator() {
+		return events.iterator();
+	}
+	
 	public void addAttribute(Attribute attr) {
 		attributes.add(attr);
+	}
+	
+	public Iterator getAttributeIterator() {
+		return attributes.iterator();
 	}
 	
 	public void addNote(Note note) {
 		notes.add(note);
 	}
 	
+	public Iterator getNoteIterator() {
+		return notes.iterator();
+	}
+	
 	public void addSource(Source source) {
 		sources.add(source);
+	}
+	
+	public Iterator getSourceIterator() {
+		return sources.iterator();
 	}
 	
 	public void addFamilyAsChild(Family family) {
 		familyAsChild.add(family);
 	}
 	
+	public Iterator getFamilyAsChildIterator() {
+		return familyAsChild.iterator();
+	}
+	
 	public void addFamilyAsSpouse(Family family) {
 		familyAsSpouse.add(family);
+	}
+	
+	public Iterator getFamilyAsSpouseIterator() {
+		return familyAsSpouse.iterator();
 	}
 	
 	public Event getBirth() {
