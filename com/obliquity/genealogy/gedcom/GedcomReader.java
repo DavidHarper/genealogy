@@ -25,7 +25,7 @@ public class GedcomReader {
 		br = new BufferedReader(new InputStreamReader(is));
 	}
 	
-	public GedcomRecord nextRecord() throws IOException, GedcomException {
+	public GedcomRecord nextRecord() throws IOException, GedcomReaderException {
 		if (pushback && linenumber > 0) {
 			pushback = false;
 			return lastRecord;
@@ -50,7 +50,7 @@ public class GedcomReader {
 		return linenumber;
 	}
 	
-	private GedcomRecord parseLine(String line) throws GedcomException {
+	private GedcomRecord parseLine(String line) throws GedcomReaderException {
 		StringTokenizer st = new StringTokenizer(line);
 
 		String strlevel;
@@ -63,9 +63,9 @@ public class GedcomReader {
 			intlevel = Integer.valueOf(strlevel);
 			level = intlevel.intValue();
 		} catch (NoSuchElementException e) {
-			throw new GedcomException("Malformed GEDCOM record: unable to find level", linenumber);
+			throw new GedcomReaderException("Malformed GEDCOM record: unable to find level", linenumber);
 		} catch (NumberFormatException e) {
-			throw new GedcomException("Malformed GEDCOM record: unable to parse level", linenumber);
+			throw new GedcomReaderException("Malformed GEDCOM record: unable to parse level", linenumber);
 		}
 
 		String tag = null, xref = null;
@@ -73,7 +73,7 @@ public class GedcomReader {
 		try {
 			tag = st.nextToken();
 		} catch (NoSuchElementException e) {
-			throw new GedcomException("Malformed GEDCOM record: second token missing", linenumber);
+			throw new GedcomReaderException("Malformed GEDCOM record: second token missing", linenumber);
 		}
 
 		firstAt = tag.indexOf('@');
@@ -90,7 +90,7 @@ public class GedcomReader {
 			try {
 				tag = st.nextToken();
 			} catch (NoSuchElementException e) {
-				throw new GedcomException("Malformed GEDCOM record: third token missing", linenumber);
+				throw new GedcomReaderException("Malformed GEDCOM record: third token missing", linenumber);
 			}
 		}
 

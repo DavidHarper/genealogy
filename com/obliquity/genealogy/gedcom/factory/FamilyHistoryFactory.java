@@ -62,11 +62,11 @@ public class FamilyHistoryFactory extends GedcomObjectFactory {
 	}
 
 	public void processGedcomFile(GedcomReader reader) throws IOException,
-			GedcomException, PropertyException {
+			GedcomReaderException, PropertyException {
 		for (GedcomRecord record = reader.nextRecord(); record != null; record = reader
 				.nextRecord()) {
 			if (record.getLevel() != 0)
-				throw new GedcomException("Level is not zero in " + record,
+				throw new GedcomReaderException("Level is not zero in " + record,
 						reader.getLineNumber());
 
 			String tag = record.getTag();
@@ -206,7 +206,7 @@ public class FamilyHistoryFactory extends GedcomObjectFactory {
 
 				Date marriage = family.getMarriageDate();
 				if (marriage != null)
-					System.out.println("\nMarried: " + marriage.asString());
+					System.out.println("\nMarried: " + marriage);
 
 				for (int i = 1; i <= family.getChildCount(); i++)
 					showPerson(family.getChild(i), "Child #" + i);
@@ -225,10 +225,10 @@ public class FamilyHistoryFactory extends GedcomObjectFactory {
 			System.out.println(person.getName().getFullName());
 			Date birth = person.getBirthDate();
 			if (birth != null)
-				System.out.println("\tBorn: " + birth.asString());
+				System.out.println("\tBorn: " + birth);
 			Date death = person.getDeathDate();
 			if (death != null)
-				System.out.println("\tDied: " + death.asString());
+				System.out.println("\tDied: " + death);
 		}
 	}
 }

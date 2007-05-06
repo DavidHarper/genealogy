@@ -9,29 +9,36 @@ public abstract class GedcomObjectFactory {
 	protected GedcomObjectFactory parent;
 
 	protected HashMap xrefTable = new HashMap();
-	
+
 	protected boolean debugging = false;
 
 	public GedcomObjectFactory(GedcomObjectFactory parent) {
 		this.parent = parent;
 	}
-	
+
 	public void setDebugging(boolean debugging) {
 		this.debugging = debugging;
 	}
-	
+
 	public boolean isDebugging() {
 		return debugging || (parent != null && parent.isDebugging());
 	}
 
 	public Core processGedcomRecord(GedcomRecord rootRecord, GedcomReader reader)
-			throws IOException, GedcomException, PropertyException {
+			throws IOException, GedcomReaderException, PropertyException {
 		int rootLevel = rootRecord.getLevel();
 
 		if (debugging)
 			report("### Processing root record", rootRecord, reader);
 		
-		Core root = createRootObject(rootRecord);
+		Core root = null;
+		
+		try {
+			root = createRootObject(rootRecord);
+		} catch (GedcomException e) {
+			int linenumber = reader.getLineNumber();
+			throw new GedcomReaderException("A " + e.getClass().getName() + " occurred: " + e.getMessage(), linenumber);
+		}
 		
 		if (root == null) {
 			ignoreRecord(rootRecord, reader);
@@ -75,14 +82,15 @@ public abstract class GedcomObjectFactory {
 
 		return null;
 	}
-	
-	protected void report(String message, GedcomRecord record, GedcomReader reader) {
+
+	protected void report(String message, GedcomRecord record,
+			GedcomReader reader) {
 		java.io.PrintStream ps = System.out;
-		
+
 		String classname = getClass().getName();
 		int lastdot = classname.lastIndexOf('.');
-		classname = classname.substring(lastdot+1);
-		
+		classname = classname.substring(lastdot + 1);
+
 		ps.print(message);
 		ps.print(" in class ");
 		ps.print(classname);
@@ -105,7 +113,7 @@ public abstract class GedcomObjectFactory {
 	}
 
 	public void ignoreRecord(GedcomRecord rootRecord, GedcomReader reader)
-			throws IOException, GedcomException {
+			throws IOException, GedcomReaderException {
 		int rootLevel = rootRecord.getLevel();
 
 		for (GedcomRecord record = reader.nextRecord(); record != null; record = reader
@@ -119,7 +127,8 @@ public abstract class GedcomObjectFactory {
 		}
 	}
 
-	public abstract Core createRootObject(GedcomRecord record);
+	public abstract Core createRootObject(GedcomRecord record)
+			throws GedcomException;
 
 	public abstract boolean handleRecord(Core root, GedcomRecord record,
 			GedcomReader reader);
