@@ -40,13 +40,13 @@ public class DatePeriod extends Date {
 	public String toString() {
 		switch (flags) {
 		case FROM:
-		return "DatePeriod[FROM " + super.toString() + "]";
+		return "FROM " + super.toString();
 		
 		case TO:
-			return "DatePeriod[TO " + super.toString() + "]";
+			return "TO " + super.toString();
 			
 		case FROM_TO:
-			return "DatePeriod[FROM " + super.toString() + " TO " + date2.toString() + "]";
+			return "FROM " + super.toString() + " TO " + date2.toString();
 			
 		default:
 			return "DatePeriod[UNKNOWN " + super.toString() + "]";

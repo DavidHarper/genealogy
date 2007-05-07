@@ -40,13 +40,13 @@ public class DateRange extends Date {
 	public String toString() {
 		switch (flags) {
 		case BEFORE:
-		return "DateRange[BEFORE " + super.toString() + "]";
+		return "BEFORE " + super.toString();
 		
 		case AFTER:
-			return "DateRange[AFTER " + super.toString() + "]";
+			return "AFTER " + super.toString();
 			
 		case BETWEEN:
-			return "DateRange[BETWEEN " + super.toString() + " AND " + date2.toString() + "]";
+			return "BETWEEN " + super.toString() + " AND " + date2.toString();
 			
 		default:
 			return "DateRange[UNKNOWN " + super.toString() + "]";
