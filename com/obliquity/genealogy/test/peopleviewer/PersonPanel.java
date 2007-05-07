@@ -1,6 +1,8 @@
 package com.obliquity.genealogy.test.peopleviewer;
 
 import javax.swing.*;
+import javax.swing.border.*;
+
 import java.awt.*;
 
 import com.obliquity.genealogy.*;
@@ -20,7 +22,7 @@ class PersonPanel extends JPanel implements LayoutManager {
 
 	protected static final int PREFERRED_SIZE = 1;
 
-	protected Insets insets = new Insets(10, 10, 10, 10);
+	protected Insets insets = new Insets(15, 10, 10, 10);
 
 	protected JLabel lblName = new JLabel();
 
@@ -47,7 +49,7 @@ class PersonPanel extends JPanel implements LayoutManager {
 		labels[1] = new JLabel("Birth:");
 		values[1] = lblBirth;
 
-		labels[2] = new JLabel("Chr.:");
+		labels[2] = new JLabel("Baptism:");
 		values[2] = lblBaptism;
 
 		labels[3] = new JLabel("Death:");
@@ -56,18 +58,15 @@ class PersonPanel extends JPanel implements LayoutManager {
 		labels[4] = new JLabel("Burial:");
 		values[4] = lblBurial;
 
-		Font fntBold20 = new Font("sansserif", Font.BOLD, 20);
-		Font fntPlain20 = new Font("sensserif", Font.PLAIN, 20);
-
 		Font fntBold14 = new Font("sansserif", Font.BOLD, 14);
 		Font fntPlain14 = new Font("sansserif", Font.PLAIN, 14);
 
-		labels[0].setFont(fntBold20);
+		labels[0].setFont(fntBold14);
 
 		Dimension size = labels[0].getPreferredSize();
 		size.width = 800;
 
-		values[0].setFont(fntPlain20);
+		values[0].setFont(fntBold14);
 		values[0].setPreferredSize(size);
 
 		for (int i = 1; i < labels.length; i++) {
@@ -82,6 +81,8 @@ class PersonPanel extends JPanel implements LayoutManager {
 			add(labels[i]);
 			add(values[i]);
 		}
+		
+		setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 	}
 
 	public void setPerson(Person person) {
