@@ -4,6 +4,10 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import com.obliquity.genealogy.*;
 
@@ -12,7 +16,7 @@ class PersonPanel extends JPanel implements LayoutManager {
 
 	protected JLabel[] labels;
 
-	protected JLabel[] values;
+	protected PersonTextField[] values;
 
 	protected int vgap = 5;
 
@@ -24,15 +28,15 @@ class PersonPanel extends JPanel implements LayoutManager {
 
 	protected Insets insets = new Insets(15, 10, 10, 10);
 
-	protected JLabel lblName = new JLabel();
+	protected PersonTextField txtName = new PersonTextField();
 
-	protected JLabel lblBirth = new JLabel();
+	protected PersonTextField txtBirth = new PersonTextField();
 
-	protected JLabel lblBaptism = new JLabel();
+	protected PersonTextField txtBaptism = new PersonTextField();
 
-	protected JLabel lblDeath = new JLabel();
+	protected PersonTextField txtDeath = new PersonTextField();
 
-	protected JLabel lblBurial = new JLabel();
+	protected PersonTextField txtBurial = new PersonTextField();
 
 	public PersonPanel() {
 		super(null);
@@ -41,22 +45,22 @@ class PersonPanel extends JPanel implements LayoutManager {
 		int nrows = 5;
 
 		labels = new JLabel[nrows];
-		values = new JLabel[nrows];
+		values = new PersonTextField[nrows];
 
 		labels[0] = new JLabel("NAME:");
-		values[0] = lblName;
+		values[0] = txtName;
 
 		labels[1] = new JLabel("Birth:");
-		values[1] = lblBirth;
+		values[1] = txtBirth;
 
 		labels[2] = new JLabel("Baptism:");
-		values[2] = lblBaptism;
+		values[2] = txtBaptism;
 
 		labels[3] = new JLabel("Death:");
-		values[3] = lblDeath;
+		values[3] = txtDeath;
 
 		labels[4] = new JLabel("Burial:");
-		values[4] = lblBurial;
+		values[4] = txtBurial;
 
 		Font fntBold14 = new Font("sansserif", Font.BOLD, 14);
 		Font fntPlain14 = new Font("sansserif", Font.PLAIN, 14);
@@ -91,19 +95,19 @@ class PersonPanel extends JPanel implements LayoutManager {
 	}
 
 	protected void refresh() {
-		lblName.setText(person == null ? "" : person.getName().toString());
+		txtName.setText(person == null ? "" : person.getName().toString(), false);
 
-		lblBirth.setText(person == null || person.getBirth() == null ? ""
-				: person.getBirth().getDateAndPlace());
+		txtBirth.setText(person == null || person.getBirth() == null ? ""
+				: person.getBirth().getDateAndPlace(), false);
 
-		lblBaptism.setText(person == null || person.getBaptism() == null ? ""
-				: person.getBaptism().getDateAndPlace());
-
-		lblDeath.setText(person == null || person.getDeath() == null ? ""
-				: person.getDeath().getDateAndPlace());
-
-		lblBurial.setText(person == null || person.getBurial() == null ? ""
-				: person.getBurial().getDateAndPlace());
+		txtBaptism.setText(person == null || person.getBaptism() == null ? ""
+				: person.getBaptism().getDateAndPlace(), false);
+		
+		txtDeath.setText(person == null || person.getDeath() == null ? ""
+				: person.getDeath().getDateAndPlace(), false);
+		
+		txtBurial.setText(person == null || person.getBurial() == null ? ""
+				: person.getBurial().getDateAndPlace(), false);
 	}
 
 	public void addLayoutComponent(String name, Component comp) {
@@ -194,5 +198,43 @@ class PersonPanel extends JPanel implements LayoutManager {
 
 	public void removeLayoutComponent(Component comp) {
 		// Does nothing
+	}
+	
+	class PersonTextField extends JTextField {
+		public PersonTextField() {
+			super();
+			init();
+		}
+		
+		public PersonTextField(int columns) {
+			super(columns);
+			init();
+		}
+		
+		public PersonTextField(String text) {
+			super(text);
+			init();
+		}
+		
+		protected void init() {
+			addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
+						setEditable(true);
+					}
+				}
+			});
+			
+			addFocusListener(new FocusAdapter() {
+				public void focusLost(FocusEvent e) {
+					setEditable(false);
+				}
+			});
+		}
+		
+		public void setText(String text, boolean editable) {
+			super.setText(text);
+			setEditable(editable);
+		}
 	}
 }
