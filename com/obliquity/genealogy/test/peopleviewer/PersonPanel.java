@@ -21,14 +21,14 @@ class PersonPanel extends JPanel implements LayoutManager {
 	protected int vgap = 5;
 
 	protected int hgap = 5;
+	
+	protected Insets myInsets = new Insets(10, 10, 10, 10);
 
 	protected static final int MINIMUM_SIZE = 0;
 
 	protected static final int PREFERRED_SIZE = 1;
 
-	protected Insets insets = new Insets(15, 10, 10, 10);
-
-	protected PersonTextField txtName = new PersonTextField();
+	protected JLabel lblName = new JLabel("NAME");
 
 	protected PersonTextField txtBirth = new PersonTextField();
 
@@ -42,50 +42,40 @@ class PersonPanel extends JPanel implements LayoutManager {
 		super(null);
 		setLayout(this);
 
-		int nrows = 5;
+		add(lblName);
+
+		int nrows = 4;
 
 		labels = new JLabel[nrows];
 		values = new PersonTextField[nrows];
 
-		labels[0] = new JLabel("NAME:");
-		values[0] = txtName;
+		labels[0] = new JLabel("Birth:");
+		values[0] = txtBirth;
 
-		labels[1] = new JLabel("Birth:");
-		values[1] = txtBirth;
+		labels[1] = new JLabel("Baptism:");
+		values[1] = txtBaptism;
 
-		labels[2] = new JLabel("Baptism:");
-		values[2] = txtBaptism;
+		labels[2] = new JLabel("Death:");
+		values[2] = txtDeath;
 
-		labels[3] = new JLabel("Death:");
-		values[3] = txtDeath;
+		labels[3] = new JLabel("Burial:");
+		values[3] = txtBurial;
 
-		labels[4] = new JLabel("Burial:");
-		values[4] = txtBurial;
+		Font fntBold16 = new Font("sansserif", Font.BOLD, 16);
 
 		Font fntBold14 = new Font("sansserif", Font.BOLD, 14);
 		Font fntPlain14 = new Font("sansserif", Font.PLAIN, 14);
 
-		labels[0].setFont(fntBold14);
+		lblName.setFont(fntBold16);
 
-		Dimension size = labels[0].getPreferredSize();
-		size.width = 800;
-
-		values[0].setFont(fntBold14);
-		values[0].setPreferredSize(size);
-
-		for (int i = 1; i < labels.length; i++) {
-			labels[i].setFont(fntBold14);
-			size = labels[i].getPreferredSize();
-			size.width = 800;
-			values[i].setFont(fntPlain14);
-			values[i].setPreferredSize(size);
-		}
-		
 		for (int i = 0; i < labels.length; i++) {
+			labels[i].setFont(fntBold14);
 			add(labels[i]);
+
+			values[i].setFont(fntPlain14);
 			add(values[i]);
 		}
-		
+
 		setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 	}
 
@@ -95,19 +85,21 @@ class PersonPanel extends JPanel implements LayoutManager {
 	}
 
 	protected void refresh() {
-		txtName.setText(person == null ? "" : person.getName().toString(), false);
+		lblName.setText(person == null ? "" : person.getName().toString());
 
 		txtBirth.setText(person == null || person.getBirth() == null ? ""
 				: person.getBirth().getDateAndPlace(), false);
 
 		txtBaptism.setText(person == null || person.getBaptism() == null ? ""
 				: person.getBaptism().getDateAndPlace(), false);
-		
+
 		txtDeath.setText(person == null || person.getDeath() == null ? ""
 				: person.getDeath().getDateAndPlace(), false);
-		
+
 		txtBurial.setText(person == null || person.getBurial() == null ? ""
 				: person.getBurial().getDateAndPlace(), false);
+
+		revalidate();
 	}
 
 	public void addLayoutComponent(String name, Component comp) {
@@ -126,14 +118,22 @@ class PersonPanel extends JPanel implements LayoutManager {
 					wl = d.width;
 			}
 
-			int xl = insets.left;
+			Insets insets = getInsets();
+
+			int xl = insets.left + myInsets.left;
 			int xt = xl + wl + hgap;
 
 			Dimension d = getSize();
 
-			int wt = d.width - insets.right - xt;
+			int wt = d.width - (insets.right + myInsets.right) - xt;
 
-			int y = insets.top;
+			int y = insets.top + myInsets.top;
+
+			Dimension db = lblName.getMinimumSize();
+
+			lblName.setBounds(xl, y, db.width, db.height);
+
+			y += db.height + vgap;
 
 			for (int i = 0; i < labels.length; i++) {
 				Dimension dl = labels[i].getMinimumSize();
@@ -164,10 +164,15 @@ class PersonPanel extends JPanel implements LayoutManager {
 
 	protected Dimension layoutSize(Container parent, int mode) {
 		int wl = 0;
-		int wt = 0;
+		int wt = 600;
 		int h = 0;
 
 		synchronized (parent.getTreeLock()) {
+			Dimension db = (mode == MINIMUM_SIZE) ? lblName.getMinimumSize()
+					: lblName.getPreferredSize();
+
+			h += db.height + vgap;
+
 			for (int i = 0; i < labels.length; i++) {
 				Dimension dl = (mode == MINIMUM_SIZE) ? labels[i]
 						.getMinimumSize() : labels[i].getPreferredSize();
@@ -187,8 +192,12 @@ class PersonPanel extends JPanel implements LayoutManager {
 			h += vgap * (labels.length - 1);
 		}
 
-		return new Dimension(insets.left + wl + hgap + wt + insets.right,
-				insets.top + h + insets.bottom);
+		Insets insets = getInsets();
+
+		int width = insets.left + myInsets.left + wl + hgap + wt + myInsets.right + insets.right;
+		int height = insets.top + myInsets.top + h + myInsets.bottom + insets.bottom;
+
+		return new Dimension(width, height);
 	}
 
 	private void checkComponent(Container parent) {
@@ -199,41 +208,42 @@ class PersonPanel extends JPanel implements LayoutManager {
 	public void removeLayoutComponent(Component comp) {
 		// Does nothing
 	}
-	
+
 	class PersonTextField extends JTextField {
 		public PersonTextField() {
 			super();
 			init();
 		}
-		
+
 		public PersonTextField(int columns) {
 			super(columns);
 			init();
 		}
-		
+
 		public PersonTextField(String text) {
 			super(text);
 			init();
 		}
-		
+
 		protected void init() {
 			addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
 					if (e.getButton() == MouseEvent.BUTTON1) {
 						setEditable(true);
-						getCaret().setVisible(true);					}
+						getCaret().setVisible(true);
+					}
 				}
 			});
-			
+
 			addFocusListener(new FocusAdapter() {
 				public void focusLost(FocusEvent e) {
 					setEditable(false);
 				}
 			});
-			
+
 			setToolTipText("Click to edit");
 		}
-		
+
 		public void setText(String text, boolean editable) {
 			super.setText(text);
 			setEditable(editable);
