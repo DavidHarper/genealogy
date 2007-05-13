@@ -219,9 +219,9 @@ class PersonPanel extends JPanel implements LayoutManager {
 		protected void init() {
 			addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
-					if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
+					if (e.getButton() == MouseEvent.BUTTON1) {
 						setEditable(true);
-					}
+						getCaret().setVisible(true);					}
 				}
 			});
 			
@@ -230,6 +230,8 @@ class PersonPanel extends JPanel implements LayoutManager {
 					setEditable(false);
 				}
 			});
+			
+			setToolTipText("Click to edit");
 		}
 		
 		public void setText(String text, boolean editable) {
