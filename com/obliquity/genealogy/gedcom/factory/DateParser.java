@@ -21,6 +21,9 @@ public class DateParser {
 			"JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC" };
 
 	public Date parseDate(String line) throws MalformedDateException {
+		if (line == null)
+			return null;
+		
 		String[] words = line.trim().split("\\s+");
 		
 		return parseDate(words);
