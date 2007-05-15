@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.obliquity.genealogy.test.PersonPanel;
+
 import java.awt.BorderLayout;
 import java.util.Vector;
 import java.util.Collections;
