@@ -139,7 +139,7 @@ public class Date extends Core {
 		
 		return (day == 0 ? "" : "" + day + " ") +
 			(month == 0 ? "" : gregorianMonthNames[month] + " ") +
-			fmtI4.format(year) + (oldStyle ? "* " : " ") + modstr;
+			fmtI4.format(year) + (oldStyle ? "/"+fmtI2.format((year+1)%100) : "") + modstr;
 
 	}
 }
