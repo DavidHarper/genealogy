@@ -125,12 +125,20 @@ public class Person extends Core {
 		return familyAsChild.iterator();
 	}
 	
+	public boolean hasFamilyAsChild() {
+		return !familyAsChild.isEmpty();
+	}
+	
 	public void addFamilyAsSpouse(Family family) {
 		familyAsSpouse.add(family);
 	}
 	
 	public Iterator getFamilyAsSpouseIterator() {
 		return familyAsSpouse.iterator();
+	}
+	
+	public boolean hasFamilyAsSpouse() {
+		return !familyAsSpouse.isEmpty();
 	}
 	
 	public Event getBirth() {
