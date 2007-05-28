@@ -105,7 +105,8 @@ public class PeopleViewer {
 			FamilyLister fl = new FamilyLister(allFamilies, tabbedPane, familyPage);
 			
 			tabbedPane.add("People", fl);
-			tabbedPane.add("Family", familyPage);
+			tabbedPane.add("Family", new JScrollPane(familyPage,
+					JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
 			
 			JFrame frame = new JFrame("PeopleViewer");
 			frame.getContentPane().add(tabbedPane);
