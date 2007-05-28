@@ -11,6 +11,8 @@ import com.obliquity.genealogy.gedcom.*;
 import com.obliquity.genealogy.gedcom.factory.FamilyHistoryFactory;
 
 public class PeopleViewer {
+	protected JTabbedPane tabbedPane = new JTabbedPane();
+	
 	public static void main(String[] args) {
 		PeopleViewer pv = new PeopleViewer();
 		pv.execute(args);
@@ -97,10 +99,12 @@ public class PeopleViewer {
 				allFamilies.add(new FamilyListItem(familyName, family));
 			}
 				
-			FamilyLister fl = new FamilyLister(allFamilies);
+			FamilyLister fl = new FamilyLister(allFamilies, tabbedPane);
+			
+			tabbedPane.add("People", fl);
 			
 			JFrame frame = new JFrame("PeopleViewer");
-			frame.getContentPane().add(fl);
+			frame.getContentPane().add(tabbedPane);
 			frame.pack();
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.setVisible(true);
