@@ -83,6 +83,10 @@ public class PersonPanel extends JPanel implements LayoutManager {
 		this.person = person;
 		refresh();
 	}
+	
+	public Person getPerson() {
+		return person;
+	}
 
 	protected void refresh() {
 		lblName.setText(person == null ? "" : person.getName().toString());
