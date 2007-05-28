@@ -4,7 +4,9 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.obliquity.genealogy.Family;
 import com.obliquity.genealogy.Person;
+import com.obliquity.genealogy.test.FamilyPage;
 import com.obliquity.genealogy.test.PersonPanel;
 
 import java.awt.BorderLayout;
@@ -17,6 +19,7 @@ import java.util.Collections;
 class FamilyLister extends JPanel {
 	protected Vector<FamilyListItem> allFamilies;
 	protected final JTabbedPane parent;
+	protected FamilyPage familyPage;
 
 	protected JList memberNameList = new JList();
 
@@ -27,10 +30,11 @@ class FamilyLister extends JPanel {
 	
 	protected PersonPanel personPanel = new PersonPanel();
 
-	public FamilyLister(Vector<FamilyListItem> allFamilies, JTabbedPane parent) {
+	public FamilyLister(Vector<FamilyListItem> allFamilies, JTabbedPane parent, FamilyPage familyPage) {
 		super(null);
 		
 		this.parent = parent;
+		this.familyPage = familyPage;
 		
 		BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
 		setLayout(layout);
@@ -117,11 +121,17 @@ class FamilyLister extends JPanel {
 	
 	protected void showFamilyAsChild() {
 		Person person = personPanel.getPerson();
-		System.err.println("Show family-as-child page for " + person.getName());
+
+		Family family = (Family)person.getFamilyAsChildIterator().next();
+		
+		familyPage.setFamily(family);
 	}
 	
 	protected void showFamilyAsSpouse() {
 		Person person = personPanel.getPerson();
-		System.err.println("Show family-as-spouse page for " + person.getName());
+
+		Family family = (Family)person.getFamilyAsSpouseIterator().next();
+		
+		familyPage.setFamily(family);
 	}
 }

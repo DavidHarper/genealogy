@@ -9,6 +9,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import com.obliquity.genealogy.*;
 import com.obliquity.genealogy.gedcom.*;
 import com.obliquity.genealogy.gedcom.factory.FamilyHistoryFactory;
+import com.obliquity.genealogy.test.FamilyPage;
 
 public class PeopleViewer {
 	protected JTabbedPane tabbedPane = new JTabbedPane();
@@ -99,9 +100,12 @@ public class PeopleViewer {
 				allFamilies.add(new FamilyListItem(familyName, family));
 			}
 				
-			FamilyLister fl = new FamilyLister(allFamilies, tabbedPane);
+			FamilyPage familyPage = new FamilyPage();
+			
+			FamilyLister fl = new FamilyLister(allFamilies, tabbedPane, familyPage);
 			
 			tabbedPane.add("People", fl);
+			tabbedPane.add("Family", familyPage);
 			
 			JFrame frame = new JFrame("PeopleViewer");
 			frame.getContentPane().add(tabbedPane);
