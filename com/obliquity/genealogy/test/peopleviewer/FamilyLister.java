@@ -5,6 +5,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.obliquity.genealogy.Family;
+import com.obliquity.genealogy.Name;
 import com.obliquity.genealogy.Person;
 import com.obliquity.genealogy.test.FamilyPage;
 import com.obliquity.genealogy.test.PersonPanel;
@@ -122,7 +123,14 @@ class FamilyLister extends JPanel {
 	protected void showFamilyAsChild() {
 		Person person = personPanel.getPerson();
 
-		Family family = (Family)person.getFamilyAsChildIterator().next();
+		Family[] families = person.getFamiliesAsChild();
+		
+		Family family = null;
+		
+		if (families.length > 1) {
+			
+		} else
+			family = families[0];
 		
 		familyPage.setFamily(family);
 	}
@@ -130,8 +138,59 @@ class FamilyLister extends JPanel {
 	protected void showFamilyAsSpouse() {
 		Person person = personPanel.getPerson();
 
-		Family family = (Family)person.getFamilyAsSpouseIterator().next();
+		Family[] families = person.getFamiliesAsSpouse();
 		
-		familyPage.setFamily(family);
+		Family family = null;
+		
+		if (families.length > 1) {
+			FamilyAsSpouseProxy[] proxies = new FamilyAsSpouseProxy[families.length];
+			
+			for (int i = 0; i < families.length; i++)
+				proxies[i] = new FamilyAsSpouseProxy(families[i], person);
+		
+			FamilyAsSpouseProxy proxy = (FamilyAsSpouseProxy)JOptionPane.showInputDialog(
+                    this,
+                    "Please choose the spouse",
+                    "Multiple Marriages!",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    proxies,
+                    proxies[0]);
+			
+			if (proxy != null)
+				family = proxy.getFamily();
+		} else
+			family = families[0];
+	
+		if (family != null) {
+			familyPage.setFamily(family);
+			parent.setSelectedIndex(1);
+		}
+	}
+	
+	class FamilyAsSpouseProxy {
+		protected Family family;
+		protected Person subject;
+		protected Person spouse;
+		protected String text;
+		
+		public FamilyAsSpouseProxy(Family family, Person subject) {
+			this.family = family;
+			this.subject = subject;
+			
+			spouse = subject.equals(family.getHusband()) ? family.getWife() : family.getHusband();
+			
+			Name name = spouse.getName();
+			
+			text = name != null ? name.getFullName() : "(UNKNOWN)";
+		}
+		
+		public String toString() {
+			return text;
+		}
+		
+		public Family getFamily() {
+			return family;
+		}
 	}
 }
