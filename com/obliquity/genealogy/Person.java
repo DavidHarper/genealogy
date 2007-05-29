@@ -125,6 +125,10 @@ public class Person extends Core {
 		return familyAsChild.iterator();
 	}
 	
+	public Family[] getFamiliesAsChild() {
+		return (Family[])familyAsChild.toArray(new Family[0]);
+	}
+	
 	public boolean hasFamilyAsChild() {
 		return !familyAsChild.isEmpty();
 	}
@@ -135,6 +139,10 @@ public class Person extends Core {
 	
 	public Iterator getFamilyAsSpouseIterator() {
 		return familyAsSpouse.iterator();
+	}
+	
+	public Family[] getFamiliesAsSpouse() {
+			return (Family[])familyAsSpouse.toArray(new Family[0]);
 	}
 	
 	public boolean hasFamilyAsSpouse() {
