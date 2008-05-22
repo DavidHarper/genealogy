@@ -5,7 +5,7 @@ import java.util.HashMap;
 import com.obliquity.genealogy.Event;
 
 public class GedcomEvent {
-	protected static HashMap events = new HashMap();
+	protected static HashMap<String, GedcomEvent> events = new HashMap<String, GedcomEvent>();
 
 	protected String tag;
 
@@ -79,6 +79,6 @@ public class GedcomEvent {
 	}
 	
 	public static GedcomEvent findEvent(String tag) {
-		return (GedcomEvent) events.get(tag);
+		return events.get(tag);
 	}
 }

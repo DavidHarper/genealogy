@@ -13,17 +13,17 @@ public class Person extends Core {
 	protected Event death;
 	protected Event burial;
 
-	protected Vector events = new Vector();
+	protected Vector<Event> events = new Vector<Event>();
 
-	protected Vector attributes = new Vector();
+	protected Vector<Attribute> attributes = new Vector<Attribute>();
 	
-	protected Vector notes = new Vector();
+	protected Vector<Note> notes = new Vector<Note>();
 	
-	protected Vector sources = new Vector();
+	protected Vector<Source> sources = new Vector<Source>();
 
-	protected Vector familyAsChild = new Vector();
+	protected Vector<Family> familyAsChild = new Vector<Family>();
 
-	protected Vector familyAsSpouse = new Vector();
+	protected Vector<Family> familyAsSpouse = new Vector<Family>();
 
 	public void add(Object o) throws PropertyException {
 		if (o instanceof Event)

@@ -12,8 +12,8 @@ public class PersonFactory extends GedcomObjectFactory {
 	protected AttributeFactory attributeFactory;
 	protected NameFactory nameFactory = new NameFactory(this);
 	
-	protected HashMap eventHash = new HashMap();
-	protected HashMap attributeHash = new HashMap();
+	protected HashMap<String, EventFactory> eventHash = new HashMap<String, EventFactory>();
+	protected HashMap<String, AttributeFactory> attributeHash = new HashMap<String, AttributeFactory>();
 	
 	protected String[] eventTags = {
 			"BIRT", "CHR",  "DEAT", "BURI", "CREM", "ADOP",
@@ -82,11 +82,11 @@ public class PersonFactory extends GedcomObjectFactory {
 		else if (tag.equalsIgnoreCase("NAME"))
 			return nameFactory;
 		
-		GedcomObjectFactory factory = (GedcomObjectFactory)eventHash.get(tag);
+		GedcomObjectFactory factory = eventHash.get(tag);
 		if (factory != null)
 			return factory;
 		
-		factory = (GedcomObjectFactory)attributeHash.get(tag);
+		factory = attributeHash.get(tag);
 		if (factory != null)
 			return factory;
 		

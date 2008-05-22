@@ -6,15 +6,15 @@ public class Family extends Core {
 	protected Person husband;
 	protected Person wife;
 	
-	protected Vector children = new Vector();
+	protected Vector<Person> children = new Vector<Person>();
 	
 	protected int nChildren = -1;
 	
 	protected Event marriage;
 	
-	protected Vector events = new Vector();
+	protected Vector<Event> events = new Vector<Event>();
 	
-	protected Vector notes = new Vector();
+	protected Vector<Note> notes = new Vector<Note>();
 
 	public void add(Object o) throws PropertyException {
 		if (o instanceof Event)
@@ -72,7 +72,7 @@ public class Family extends Core {
 	public Person getChild(int i) {
 		if (i < 1 || i > children.size())
 			return null;
-		else return (Person)children.elementAt(i-1);
+		else return children.elementAt(i-1);
 	}
 	
 	public Event getMarriage() {

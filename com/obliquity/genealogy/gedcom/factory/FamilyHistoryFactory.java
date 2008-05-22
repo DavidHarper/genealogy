@@ -25,13 +25,13 @@ public class FamilyHistoryFactory extends GedcomObjectFactory {
 	protected AttributeFactory attributeFactory = new AttributeFactory(
 			personFactory);
 
-	protected Set people;
+	protected Set<Person> people;
 
-	protected Set families;
+	protected Set<Family> families;
 
-	protected Set notes;
+	protected Set<Note> notes;
 
-	protected Set sources;
+	protected Set<Source> sources;
 
 	public FamilyHistoryFactory() {
 		super(null);
@@ -95,22 +95,22 @@ public class FamilyHistoryFactory extends GedcomObjectFactory {
 	}
 
 	protected void makeSets() {
-		people = new HashSet();
-		families = new HashSet();
-		notes = new HashSet();
-		sources = new HashSet();
+		people = new HashSet<Person>();
+		families = new HashSet<Family>();
+		notes = new HashSet<Note>();
+		sources = new HashSet<Source>();
 
 		for (Iterator iter = xrefTable.values().iterator(); iter.hasNext();) {
 			Core o = (Core) iter.next();
 
 			if (o instanceof Person)
-				people.add(o);
+				people.add((Person)o);
 			else if (o instanceof Family)
-				families.add(o);
+				families.add((Family)o);
 			else if (o instanceof Note)
-				notes.add(o);
+				notes.add((Note)o);
 			else if (o instanceof Source)
-				sources.add(o);
+				sources.add((Source)o);
 		}
 	}
 

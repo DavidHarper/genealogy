@@ -8,7 +8,7 @@ import com.obliquity.genealogy.PropertyException;
 public abstract class GedcomObjectFactory {
 	protected GedcomObjectFactory parent;
 
-	protected HashMap xrefTable = new HashMap();
+	protected HashMap<String, Core> xrefTable = new HashMap<String, Core>();
 
 	protected boolean debugging = false;
 
@@ -101,7 +101,7 @@ public abstract class GedcomObjectFactory {
 	}
 
 	public Core getObjectByXref(String xref) {
-		return (parent == null) ? (Core) xrefTable.get(xref) : parent
+		return (parent == null) ? xrefTable.get(xref) : parent
 				.getObjectByXref(xref);
 	}
 

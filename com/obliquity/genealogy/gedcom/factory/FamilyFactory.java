@@ -10,7 +10,7 @@ public class FamilyFactory extends GedcomObjectFactory {
 	protected NoteFactory noteFactory;
 	protected SourceFactory sourceFactory;
 	
-	protected HashMap eventHash = new HashMap();
+	protected HashMap<String, EventFactory> eventHash = new HashMap<String, EventFactory>();
 	
 	protected String[] eventTags = {
 			"ANUL", "CENS", "DIV",  "DIVF", "ENGA", "MARR",
