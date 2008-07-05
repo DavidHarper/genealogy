@@ -70,6 +70,9 @@ public class PeopleViewer {
 
 			System.out.println("Memory: total=" + totalmem + "kb, free="
 					+ freemem + "kb, used=" + usedmem + "kb");
+			
+			if (Boolean.getBoolean("nodisplay"))
+				System.exit(0);
 
 			Map<String,Vector<PersonListItem>> familynames = new HashMap<String,Vector<PersonListItem>>();
 			
