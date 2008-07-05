@@ -113,7 +113,12 @@ public class PeopleViewer {
 			frame.pack();
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.setVisible(true);
-		} catch (Exception e) {
+		} 
+		catch (GedcomReaderException gre) {
+			System.err.println("GedcomReaderException at line " + gre.getLineNumber() + " of input file");
+			gre.printStackTrace();
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
