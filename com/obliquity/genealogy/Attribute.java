@@ -1,6 +1,6 @@
 package com.obliquity.genealogy;
 
-public class Attribute {
+public class Attribute extends Core {
 	public static final int UNKNOWN = 0;
 
 	public static final int CASTE = 1;
@@ -37,6 +37,10 @@ public class Attribute {
 	
 	protected Event event;
 
+	public Attribute() {
+		this(UNKNOWN, null);
+	}
+	
 	public Attribute(int type, String value) {
 		this.type = type;
 		this.value = value;
@@ -98,5 +102,38 @@ public class Attribute {
 	
 	public void setEvent(Event event) {
 		this.event = event;
+	}
+	
+	private void addEvent(Event event) throws PropertyException {
+		if (this.event == null)
+			this.event = event;
+		else
+			throw new PropertyException("Failed to add Event to an Attribute: already set");
+	}
+	
+	private void addDate(Date date) throws PropertyException {
+		if (event == null)
+			event = new Event();
+		
+		event.add(date);
+	}
+	
+	private void addPlace(Place place) throws PropertyException {
+		if (event == null)
+			event = new Event();
+
+		event.add(place);
+	}
+
+	public void add(Object o) throws PropertyException {
+		if (o instanceof Event)
+			addEvent((Event) o);
+		else if (o instanceof Date)
+			addDate((Date) o);
+		else if (o instanceof Place)
+			addPlace((Place) o);
+		else
+			throw new PropertyException("Unable to add object of type "
+					+ o.getClass().getName() + " to an Attribute");
 	}
 }
