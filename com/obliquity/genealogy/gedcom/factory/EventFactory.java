@@ -4,9 +4,8 @@ import com.obliquity.genealogy.*;
 import com.obliquity.genealogy.gedcom.*;
 
 public class EventFactory extends GedcomObjectFactory {
-	DateFactory dateFactory = new DateFactory(this);	
-	PlaceFactory placeFactory = new PlaceFactory(this);
-	
+	private DateFactory dateFactory = new DateFactory(this);	
+	private PlaceFactory placeFactory = new PlaceFactory(this);	
 
 	public EventFactory(GedcomObjectFactory parent) {
 		super(parent);
