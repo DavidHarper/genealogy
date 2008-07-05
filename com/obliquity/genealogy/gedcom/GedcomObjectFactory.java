@@ -74,8 +74,14 @@ public abstract class GedcomObjectFactory {
 					if (debugging)
 						System.out.println("\tfactory --> " + child);
 					
-					if (child != null)
-						root.add(child);
+					if (child != null) {
+						try {
+							root.add(child);
+						}
+						catch (PropertyException pe) {
+							throw new GedcomReaderException(pe, reader.getLineNumber());
+						}
+					}
 				}
 			}
 		}

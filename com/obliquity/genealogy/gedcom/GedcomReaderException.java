@@ -10,6 +10,11 @@ public class GedcomReaderException extends Exception {
 		this.linenumber = linenumber;
 	}
 	
+	public GedcomReaderException(Throwable throwable, int linenumber) {
+		super(throwable);
+		this.linenumber = linenumber;
+	}
+	
 	public int getLineNumber() {
 		return linenumber;
 	}
