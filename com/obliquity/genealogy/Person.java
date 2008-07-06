@@ -86,7 +86,9 @@ public class Person extends Core {
 			break;
 			
 		case Event.BURIAL:
-			if (burial == null);
+			if (burial == null)
+				burial = event;
+			break;
 		}
 	}
 	
