@@ -1,7 +1,8 @@
 package com.obliquity.genealogy;
 
-import java.util.Iterator;
 import java.util.Vector;
+import java.util.List;
+import java.util.Collections;
 
 public class Person extends Core {
 	protected Name name;
@@ -13,17 +14,17 @@ public class Person extends Core {
 	protected Event death;
 	protected Event burial;
 
-	protected Vector<Event> events = new Vector<Event>();
+	protected List<Event> events = new Vector<Event>();
 
-	protected Vector<Attribute> attributes = new Vector<Attribute>();
+	protected List<Attribute> attributes = new Vector<Attribute>();
 	
-	protected Vector<Note> notes = new Vector<Note>();
+	protected List<Note> notes = new Vector<Note>();
 	
-	protected Vector<Source> sources = new Vector<Source>();
+	protected List<Source> sources = new Vector<Source>();
 
-	protected Vector<Family> familyAsChild = new Vector<Family>();
+	protected List<Family> familyAsChild = new Vector<Family>();
 
-	protected Vector<Family> familyAsSpouse = new Vector<Family>();
+	protected List<Family> familyAsSpouse = new Vector<Family>();
 
 	public void add(Object o) throws PropertyException {
 		if (o instanceof Event)
@@ -89,44 +90,40 @@ public class Person extends Core {
 		}
 	}
 	
-	public Iterator getEventIterator() {
-		return events.iterator();
+	public List<Event> getEvents() {
+		return Collections.unmodifiableList(events);
 	}
 	
 	public void addAttribute(Attribute attr) {
 		attributes.add(attr);
 	}
 	
-	public Iterator getAttributeIterator() {
-		return attributes.iterator();
+	public List<Attribute> getAttributes() {
+		return Collections.unmodifiableList(attributes);
 	}
 	
 	public void addNote(Note note) {
 		notes.add(note);
 	}
 	
-	public Iterator getNoteIterator() {
-		return notes.iterator();
+	public List<Note> getNotes() {
+		return Collections.unmodifiableList(notes);
 	}
 	
 	public void addSource(Source source) {
 		sources.add(source);
 	}
 	
-	public Iterator getSourceIterator() {
-		return sources.iterator();
+	public List<Source> getSources() {
+		return Collections.unmodifiableList(sources);
 	}
 	
 	public void addFamilyAsChild(Family family) {
 		familyAsChild.add(family);
 	}
 	
-	public Iterator getFamilyAsChildIterator() {
-		return familyAsChild.iterator();
-	}
-	
-	public Family[] getFamiliesAsChild() {
-		return (Family[])familyAsChild.toArray(new Family[0]);
+	public List<Family> getFamiliesAsChild() {
+		return Collections.unmodifiableList(familyAsChild);
 	}
 	
 	public boolean hasFamilyAsChild() {
@@ -137,12 +134,8 @@ public class Person extends Core {
 		familyAsSpouse.add(family);
 	}
 	
-	public Iterator getFamilyAsSpouseIterator() {
-		return familyAsSpouse.iterator();
-	}
-	
-	public Family[] getFamiliesAsSpouse() {
-			return (Family[])familyAsSpouse.toArray(new Family[0]);
+	public List<Family> getFamiliesAsSpouse() {
+			return Collections.unmodifiableList(familyAsSpouse);
 	}
 	
 	public boolean hasFamilyAsSpouse() {

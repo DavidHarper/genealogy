@@ -1,20 +1,21 @@
 package com.obliquity.genealogy;
 
 import java.util.Vector;
+import java.util.List;
 
 public class Family extends Core {
 	protected Person husband;
 	protected Person wife;
 	
-	protected Vector<Person> children = new Vector<Person>();
+	protected List<Person> children = new Vector<Person>();
 	
 	protected int nChildren = -1;
 	
 	protected Event marriage;
 	
-	protected Vector<Event> events = new Vector<Event>();
+	protected List<Event> events = new Vector<Event>();
 	
-	protected Vector<Note> notes = new Vector<Note>();
+	protected List<Note> notes = new Vector<Note>();
 
 	public void add(Object o) throws PropertyException {
 		if (o instanceof Event)
@@ -72,7 +73,7 @@ public class Family extends Core {
 	public Person getChild(int i) {
 		if (i < 1 || i > children.size())
 			return null;
-		else return children.elementAt(i-1);
+		else return children.get(i-1);
 	}
 	
 	public Event getMarriage() {
