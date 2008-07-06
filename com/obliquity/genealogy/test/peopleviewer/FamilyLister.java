@@ -15,6 +15,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
+import java.util.List;
 import java.util.Collections;
 
 class FamilyLister extends JPanel {
@@ -123,14 +124,12 @@ class FamilyLister extends JPanel {
 	protected void showFamilyAsChild() {
 		Person person = personPanel.getPerson();
 
-		Family[] families = person.getFamiliesAsChild();
+		List<Family> families = person.getFamiliesAsChild();
 		
 		Family family = null;
 		
-		if (families.length > 1) {
-			
-		} else
-			family = families[0];
+		if (families != null)
+			family = families.get(0);
 		
 		familyPage.setFamily(family);
 	}
@@ -138,15 +137,15 @@ class FamilyLister extends JPanel {
 	protected void showFamilyAsSpouse() {
 		Person person = personPanel.getPerson();
 
-		Family[] families = person.getFamiliesAsSpouse();
+		List<Family> families = person.getFamiliesAsSpouse();
 		
 		Family family = null;
 		
-		if (families.length > 1) {
-			FamilyAsSpouseProxy[] proxies = new FamilyAsSpouseProxy[families.length];
+		if (families.size() > 1) {
+			FamilyAsSpouseProxy[] proxies = new FamilyAsSpouseProxy[families.size()];
 			
-			for (int i = 0; i < families.length; i++)
-				proxies[i] = new FamilyAsSpouseProxy(families[i], person);
+			for (int i = 0; i < families.size(); i++)
+				proxies[i] = new FamilyAsSpouseProxy(families.get(i), person);
 		
 			FamilyAsSpouseProxy proxy = (FamilyAsSpouseProxy)JOptionPane.showInputDialog(
                     this,
@@ -160,7 +159,7 @@ class FamilyLister extends JPanel {
 			if (proxy != null)
 				family = proxy.getFamily();
 		} else
-			family = families[0];
+			family = families.get(0);
 	
 		if (family != null) {
 			familyPage.setFamily(family);
