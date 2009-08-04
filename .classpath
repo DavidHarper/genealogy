@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry path="" kind="src"/>
-	<classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/Java 1.6.0" kind="con"/>
-	<classpathentry path="jlfgr-1_0.jar" kind="lib"/>
-	<classpathentry path="" kind="output"/>
+	<classpathentry kind="src" path=""/>
+	<classpathentry kind="lib" path="jlfgr-1_0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path=""/>
 </classpath>
