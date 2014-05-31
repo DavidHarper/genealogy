@@ -257,7 +257,15 @@ public class DateParser {
 
 				if (andOffset > 0) {
 					date1 = parsePlainDate(words, 1, andOffset - 1);
+					
+					if (date1 == null)
+						throw new MalformedDateException("First date in range is invalid");
+					
 					date2 = parsePlainDate(words, andOffset + 1, 0);
+					
+					if (date2 == null)
+						throw new MalformedDateException("Second date in range is invalid");
+					
 					return new DateRange(date1, date2);
 				} else
 					throw new MalformedDateException("AND keyword missing");
