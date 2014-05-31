@@ -34,7 +34,7 @@ public abstract class GedcomObjectFactory {
 
 	protected HashMap<String, Core> xrefTable = new HashMap<String, Core>();
 
-	protected boolean debugging = false;
+	protected boolean debugging = Boolean.getBoolean("gedcomobjectfactory.debugging");
 
 	public GedcomObjectFactory(GedcomObjectFactory parent) {
 		this.parent = parent;
