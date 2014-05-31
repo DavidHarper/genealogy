@@ -61,7 +61,7 @@ public abstract class GedcomObjectFactory {
 			root = createRootObject(rootRecord);
 		} catch (GedcomException e) {
 			int linenumber = reader.getLineNumber();
-			throw new GedcomReaderException("A " + e.getClass().getName() + " occurred: " + e.getMessage(), linenumber);
+			System.err.println("A " + e.getClass().getName() + " occurred: " + e.getMessage() + "[line number = " + linenumber + "]");
 		}
 		
 		if (root == null) {
