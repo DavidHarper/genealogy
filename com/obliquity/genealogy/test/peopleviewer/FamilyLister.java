@@ -155,7 +155,10 @@ class FamilyLister extends JPanel {
 		if (families != null)
 			family = families.get(0);
 		
-		familyPage.setFamily(family);
+		if (family != null) {
+			familyPage.setFamily(family);
+			parent.setSelectedIndex(1);
+		}
 	}
 	
 	protected void showFamilyAsSpouse() {
