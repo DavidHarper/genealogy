@@ -158,7 +158,11 @@ public class DateParser {
 				break;
 
 			case 3:
-				day = Integer.parseInt(words[offset]);
+				if (isDigits(words[offset]))
+					day = Integer.parseInt(words[offset]);
+				else
+					throw new MalformedDateException("Days field is invalid: \"" + words[offset] + "\"");
+				
 				month = monthNameToInt(words[offset + 1]);
 				strYear = words[offset + 2];
 				i = strYear.indexOf("/");
