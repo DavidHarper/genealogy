@@ -29,7 +29,7 @@
   <property name="javadoc.dir" value="${build.dir}/docs"/>
   
   <!-- Target version of Java -->
-  <property name="build.target" value="1.6" />
+  <property name="build.target" value="11" />
   
   <!-- Target to create the build directories prior to the -->
   <!-- compile target. -->
