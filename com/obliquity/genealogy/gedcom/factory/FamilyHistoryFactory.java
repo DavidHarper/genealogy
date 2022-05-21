@@ -111,9 +111,14 @@ public class FamilyHistoryFactory extends GedcomObjectFactory {
 			} else
 				factory = null;
 
-			if (factory != null)
-				factory.processGedcomRecord(record, reader);
-			else
+			if (factory != null) {
+				try {
+					factory.processGedcomRecord(record, reader);
+				}
+				catch (Exception e) {
+					throw new GedcomReaderException(e, reader.getLineNumber());
+				}
+			} else
 				ignoreRecord(record, reader);
 		}
 	}
