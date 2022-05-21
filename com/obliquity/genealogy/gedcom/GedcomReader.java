@@ -36,6 +36,8 @@ public class GedcomReader {
 	protected GedcomRecord lastRecord = new GedcomRecord();
 	protected boolean pushback = false;
 	
+	public static final String UTF8_BOM = "\uFEFF";
+	
 	public GedcomReader(File file) throws IOException {
 		lnr = new LineNumberReader(new FileReader(file));
 	}
@@ -58,6 +60,10 @@ public class GedcomReader {
 		
 		if (lnr == null)
 			return null;
+		
+		// Remove the UTF-8 byte-order marker from the first line, if present.
+		if (lnr.getLineNumber() == 1 && line.startsWith(UTF8_BOM))
+			line = line.substring(1);
 		
 		return parseLine(line);
 	}
